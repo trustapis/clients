@@ -37,6 +37,7 @@ export type Rule = {
 
 export type Actor = {
   ID: string
+  Groups?: string[]
 }
 
 export type Effect = string
@@ -45,6 +46,7 @@ export type Resources = string[]
 export type ErrorTemplate = string
 
 export type RuleCondition = {
+  Actor?: Actor
   Reason?: Reason
   AppDomain?: AppDomain
   ExternalEval?: ExternalEval

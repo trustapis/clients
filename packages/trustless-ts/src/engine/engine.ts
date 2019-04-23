@@ -1,43 +1,18 @@
+import { matchActions, matchResources } from './match'
+import { AuditLog, AuditLogEntry } from '../audit'
 import {
   AccessPolicy,
   AccessRequest,
   AccessResult,
   AccessPolicyErrors,
-  AccessPolicyError,
-  Resources,
-  Actions
+  AccessPolicyError
 } from '../access'
-import { AuditLog, AuditLogEntry } from '../audit'
 
 export type Engine = {
   Policies: AccessPolicy[]
 }
 
 export type EngineInput = Engine
-
-function matchResources(o: Resources, n: Resources): boolean {
-  if (o[0] === '*') {
-    return true
-  }
-
-  return (
-    n.filter(r => {
-      return o.filter(or => or === r).length > 0
-    }).length > 0
-  )
-}
-
-function matchActions(o: Actions, n: Actions): boolean {
-  if (o[0] === '*') {
-    return true
-  }
-
-  return (
-    n.filter(a => {
-      return o.filter(oa => oa === a).length > 0
-    }).length > 0
-  )
-}
 
 function renderErrorTemplate(tpl: string): string {
   return tpl
@@ -77,6 +52,32 @@ export class PolicyEngine {
                     return getError()
                   }
                 }
+
+                if (cnd.Actor) {
+                  if (cnd.Actor.Groups) {
+                    // TODO: add filter(g => regexp.test(g)) check
+                    if (!request.Actor.Groups) {
+                      if (rule.Effect === 'allow') {
+                        return getError()
+                      } else {
+                        // If policy states "Block if in group(s) ...", the request
+                        // should allow an Actor who's not in any groups
+                        return
+                      }
+                    }
+
+                    let validGroups = request.Actor.Groups.filter(group => {
+                      return cnd.Actor.Groups.includes(group)
+                    })
+
+                    if (validGroups.length > 0 && rule.Effect === 'block') {
+                      return getError()
+                    }
+                  }
+                }
+
+                // Otherwise, pass by default
+                return
               }
             ).filter(Boolean)
 
