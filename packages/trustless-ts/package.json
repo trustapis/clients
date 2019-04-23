@@ -1,0 +1,36 @@
+{
+  "name": "trustless",
+  "version": "0.0.1",
+  "description": "Trustless APIs for TypeScript and JavaScript",
+  "main": "lib/index.js",
+  "source": "src/index.ts",
+  "module": "lib/index.mjs",
+  "umd:main": "lib/index.umd.js",
+  "repository": "https://github.com/trustapis/clients/tree/master/packages/trustless-ts",
+  "author": "UserMirror, Inc. <open@usermirror.com>",
+  "license": "UNLICENSED",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "test": "ava",
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "devDependencies": {
+    "@types/node": "^11.13.7",
+    "ava": "^1.0.1",
+    "microbundle": "^0.9.0",
+    "ts-node": "^7.0.1"
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}
