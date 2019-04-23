@@ -1,1 +1,1 @@
-You're probably looking for [trustapis/go](https://github.com/trustapis/go)
+Learn about [trustapis/go &rarr;](https://github.com/trustapis/go)
