@@ -98,3 +98,48 @@ deploy-worker --zone-id {zone-id} worker.js
 ```
 
 Congrats! You deployed your Cloudflare Worker 🎉
+
+#### Testing
+
+Let's try a request without a `Reason` and not in the LDAP group required to make a POST request:
+
+**Request**
+
+```console
+curl -X POST https://funk.sh -d '{"Actor":{"ID":"testuser"},"Actions":["http:method::post"],"Resources":["internal:service::user-profiles"]}'
+```
+
+**Response**
+
+```json
+{
+  "Effect": "block",
+  "Errors": [
+    {
+      "Message": "missing reason",
+      "Code": "unauthorized"
+    },
+    {
+      "Message": "You don't have permission to modify user data",
+      "Code": "unauthorized"
+    }
+  ]
+}
+```
+
+Now let's add a `Reason` and proper LDAP group:
+
+**Request**
+
+```console
+curl -X POST https://funk.sh -d '{"Actor":{"ID":"testuser","Groups":["ldap:group::can_modify_user_data"]},"Actions":["http:method::post"],"Resources":["internal:service::user-profiles"],"Reason":"internal access"}'
+```
+
+**Response**
+
+```json
+{
+  "Effect": "allow",
+  "Errors": []
+}
+```
