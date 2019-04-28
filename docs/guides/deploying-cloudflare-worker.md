@@ -37,45 +37,45 @@ startCloudflareWorker({ Policies })
 
 You can either define policies directly in the code or in a separate file like `test-policies.json`:
 
-```js
-;[
+```json
+[
   {
-    Rules: [
+    "Rules": [
       {
-        Effect: 'block',
-        Actions: ['*'],
-        Resources: ['*'],
-        Conditions: [{ Reason: '' }],
-        ErrorTemplate: 'missing reason'
+        "Effect": "block",
+        "Actions": ["*"],
+        "Resources": ["*"],
+        "Conditions": [{ "Reason": "" }],
+        "ErrorTemplate": "missing reason"
       }
     ]
   },
   {
-    Rules: [
+    "Rules": [
       {
-        Effect: 'allow',
-        Actions: ['http:method::get'],
-        Resources: ['internal:service::*'],
-        ErrorTemplate: "You don't have permission to access user data",
-        Conditions: [
+        "Effect": "allow",
+        "Actions": ["http:method::get"],
+        "Resources": ["internal:service::*"],
+        "ErrorTemplate": "You don't have permission to access user data",
+        "Conditions": [
           {
-            Actor: {
-              ID: '*',
-              Groups: ['ldap:group::can_access_user_data']
+            "Actor": {
+              "ID": "*",
+              "Groups": ["ldap:group::can_access_user_data"]
             }
           }
         ]
       },
       {
-        Effect: 'allow',
-        Actions: ['http:method::*'],
-        Resources: ['internal:service::*'],
-        ErrorTemplate: "You don't have permission to modify user data",
-        Conditions: [
+        "Effect": "allow",
+        "Actions": ["http:method::*"],
+        "Resources": ["internal:service::*"],
+        "ErrorTemplate": "You don't have permission to modify user data",
+        "Conditions": [
           {
-            Actor: {
-              ID: '*',
-              Groups: ['ldap:group::can_modify_user_data']
+            "Actor": {
+              "ID": "*",
+              "Groups": ["ldap:group::can_modify_user_data"]
             }
           }
         ]
