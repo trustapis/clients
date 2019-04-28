@@ -27,7 +27,7 @@ export class PolicyEngine {
     this.__audit_log = { Entries: [] }
   }
 
-  Eval = (request: AccessRequest): AccessResult => {
+  Process(request: AccessRequest): AccessResult {
     let errors: AccessPolicyErrors = this.Policies.map(policy => {
       return policy.Rules.map(rule => {
         let err: AccessPolicyError
@@ -99,6 +99,10 @@ export class PolicyEngine {
     this.addLogEntry(request, result)
 
     return result
+  }
+
+  ProcessBatch(batch: AccessRequest[]): AccessResult[] {
+    return batch.map(request => this.Process(request))
   }
 
   addLogEntry(request: AccessRequest, result: AccessResult) {

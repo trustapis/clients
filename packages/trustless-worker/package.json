@@ -1,7 +1,7 @@
 {
-  "name": "trustless",
-  "version": "0.0.2",
-  "description": "Trustless APIs for TypeScript and JavaScript",
+  "name": "trustless-worker",
+  "version": "0.0.4",
+  "description": "Trustless in a worker environment",
   "main": "lib/index.js",
   "source": "src/index.ts",
   "module": "lib/index.mjs",
@@ -17,6 +17,9 @@
     "test": "ava",
     "build": "microbundle",
     "dev": "microbundle watch"
+  },
+  "dependencies": {
+    "trustless": "^0.0.2"
   },
   "devDependencies": {
     "@types/node": "^11.13.7",

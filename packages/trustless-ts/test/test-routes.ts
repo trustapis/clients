@@ -50,7 +50,7 @@ let Policies: AccessPolicy[] = [
 test('[block - no group] GET to internal service', t => {
   let engine = createPolicyEngine({ Policies })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Actor: { ID: 'testusr' },
     Actions: ['http:method::get'],
     Resources: ['internal:service::user-profile-viewer']
@@ -62,7 +62,7 @@ test('[block - no group] GET to internal service', t => {
 test('[block - wrong group] GET to internal service', t => {
   let engine = createPolicyEngine({ Policies })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Actor: { ID: 'testusr', Groups: ['random-group'] },
     Actions: ['http:method::get'],
     Resources: ['internal:service::user-profile-viewer']
@@ -74,7 +74,7 @@ test('[block - wrong group] GET to internal service', t => {
 test('[allow] GET to internal service', t => {
   let engine = createPolicyEngine({ Policies })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Reason: 'valid reason',
     Actions: ['http:method::get'],
     Actor: { ID: 'testusr', Groups: ['ldap:group::can_access_user_data'] },
@@ -87,7 +87,7 @@ test('[allow] GET to internal service', t => {
 test('[block - wrong group] POST to internal service', t => {
   let engine = createPolicyEngine({ Policies })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Actor: { ID: 'testusr', Groups: ['ldap:group::can_access_user_data'] },
     Actions: ['http:method::post'],
     Resources: ['internal:service::user-profile-viewer/api/users*']
@@ -100,7 +100,7 @@ test('[block - wrong group] POST to internal service', t => {
 test('[allow] POST to internal service', t => {
   let engine = createPolicyEngine({ Policies })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Reason: 'valid reason',
     Actions: ['http:method::post'],
     Actor: { ID: 'testusr', Groups: ['ldap:group::can_modify_user_data'] },

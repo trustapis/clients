@@ -22,7 +22,7 @@ test('single, simple audit entry <array>', t => {
     ]
   })
 
-  engine.Eval({
+  engine.Process({
     Actor: { ID: 'testusr' },
     Actions: ['simple::Test'],
     Resources: ['simple:object::123']
@@ -58,7 +58,7 @@ test('10 requests', async t => {
 
   for (let i = 0; i < 10; i++) {
     let Reason = Math.random() > 0.5 ? 'valid reason' : ''
-    engine.Eval({ ...req, Reason })
+    engine.Process({ ...req, Reason })
   }
 
   let entries = engine.getAuditLogArray()

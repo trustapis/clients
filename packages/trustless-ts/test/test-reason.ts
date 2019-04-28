@@ -17,7 +17,7 @@ test('[block] missing reason', t => {
     ]
   })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Actor: { ID: 'testusr' },
     Actions: ['simple::Test'],
     Resources: ['simple:object::123']
@@ -42,7 +42,7 @@ test('[allow] has reason', t => {
     ]
   })
 
-  let result = engine.Eval({
+  let result = engine.Process({
     Actor: { ID: 'testusr' },
     Actions: ['simple::Test'],
     Resources: ['simple:object::123'],
